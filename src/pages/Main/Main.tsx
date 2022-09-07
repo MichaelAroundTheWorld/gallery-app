@@ -1,19 +1,24 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Wrapper } from '../../components/Wrapper/Wrapper';
-import styles from './Main.module.scss';
 import { pictures } from '../../data/data';
+import { OpenedImg } from './OpenedImg/OpenedImg';
+import { Gallery } from './Gallery/Gallery';
 
 export const Main: FC = () => {
+  const [show, setShow] = useState(false);
+  const [currentImg, setCurrentImg] = useState('');
+
+  const handleClick = (picture: string) => {
+    setCurrentImg(picture);
+    setShow(true);
+  };
+
   return (
     <Wrapper>
-      <div className={styles.gallery}>
-        {pictures.map((picture) => (
-          <div className={styles.item}>
-            <img src={picture.img} alt={picture.photographer} />
-            <h3>{picture.photographer}</h3>
-          </div>
-        ))}
-      </div>
+      <>
+        {show ? <OpenedImg setShow={setShow} currentImg={currentImg} /> : <></>}
+        <Gallery pictures={pictures} handleClick={handleClick} />
+      </>
     </Wrapper>
   );
 };
